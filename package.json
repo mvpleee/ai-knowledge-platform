@@ -1,0 +1,61 @@
+{
+  "name": "ai-knowledge-platform",
+  "version": "1.0.0",
+  "description": "专业的AI知识分享平台 - 支持用户认证、内容管理、订阅支付和AI功能",
+  "main": "ai-knowledge-platform/index.html",
+  "scripts": {
+    "dev": "npx serve ai-knowledge-platform -l 3000",
+    "build": "echo 'Build complete - Static files ready for deployment'",
+    "start": "npm run dev",
+    "deploy": "vercel --prod",
+    "test": "echo 'No tests specified yet'",
+    "lint": "echo 'No linting specified yet'",
+    "supabase:status": "supabase status",
+    "supabase:login": "supabase login",
+    "supabase:link": "supabase link",
+    "supabase:push": "supabase db push",
+    "supabase:migrate": "supabase migration new",
+    "supabase:seed": "supabase db seed",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
+    "local:supabase": "supabase start",
+    "local:stop": "supabase stop"
+  },
+  "keywords": [
+    "ai",
+    "knowledge",
+    "platform",
+    "supabase",
+    "stripe",
+    "vercel",
+    "javascript",
+    "html",
+    "css"
+  ],
+  "author": "AI Knowledge Platform Team",
+  "license": "MIT",
+  "dependencies": {
+    "@stripe/stripe-js": "^2.4.0",
+    "@supabase/supabase-js": "^2.39.0",
+    "stripe": "^14.9.0"
+  },
+  "devDependencies": {
+    "serve": "^14.2.5",
+    "vercel": "^33.7.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/ai-knowledge-platform.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/ai-knowledge-platform/issues"
+  },
+  "homepage": "https://github.com/your-username/ai-knowledge-platform#readme",
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
