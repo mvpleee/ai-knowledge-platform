@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="关于AI知识平台 - 我们是专注人工智能技术学习和交流的社区平台">
+    <meta name="keywords" content="关于我们,AI知识平台,人工智能,技术社区,学习平台">
+    <meta name="author" content="AI知识平台">
+    <title>关于我们 - AI知识平台</title>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="关于我们 - AI知识平台">
+    <meta property="og:description" content="专注人工智能技术学习和交流的社区平台">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/auth.css">
+
+    <style>
+        /* 关于页面特定样式 */
+        .about-hero {
+            padding: calc(64px + var(--spacing-3xl)) 0 var(--spacing-3xl);
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 200%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
+            animation: pulse 6s ease-in-out infinite;
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-hero-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: var(--spacing-lg);
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-color) 50%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .about-hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .about-section {
+            padding: var(--spacing-3xl) 0;
+        }
+
+        .about-section:nth-child(even) {
+            background: var(--bg-secondary);
+        }
+
+        .about-section-title {
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .mission-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-2xl);
+            text-align: center;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform var(--transition-normal);
+        }
+
+        .mission-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-color);
+        }
+
+        .mission-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .mission-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto var(--spacing-lg);
+            background: var(--primary-gradient);
+            border-radius: var(--radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-2xl);
+            color: white;
+            transition: all var(--transition-normal);
+        }
+
+        .mission-card:hover .mission-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .mission-title {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .mission-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: var(--text-base);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .team-member {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-2xl);
+            text-align: center;
+            transition: all var(--transition-normal);
+        }
+
+        .team-member:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-color);
+        }
+
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            margin: 0 auto var(--spacing-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-avatar::before {
+            content: '👤';
+            font-size: 3rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--text-tertiary);
+        }
+
+        .team-name {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .team-role {
+            color: var(--primary-color);
+            font-size: var(--text-base);
+            font-weight: 500;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .team-bio {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: var(--text-sm);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .value-item {
+            text-align: center;
+            padding: var(--spacing-lg);
+        }
+
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto var(--spacing-lg);
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-2xl);
+            color: white;
+            transition: all var(--transition-normal);
+        }
+
+        .value-item:hover .value-icon {
+            transform: scale(1.1);
+        }
+
+        .value-title {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .value-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .contact-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-2xl);
+            text-align: center;
+            margin-top: var(--spacing-2xl);
+        }
+
+        .contact-title {
+            font-size: var(--text-2xl);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .contact-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .contact-actions {
+            display: flex;
+            gap: var(--spacing-lg);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .about-hero {
+                min-height: 50vh;
+                padding: calc(64px + var(--spacing-2xl)) 0 var(--spacing-2xl);
+            }
+
+            .mission-grid,
+            .team-grid,
+            .values-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-lg);
+            }
+
+            .contact-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .contact-actions .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+    </style>
+</head>
+<body class="about-page">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <div class="navbar-logo">AI</div>
+                <span>知识平台</span>
+            </a>
+
+            <div class="navbar-nav">
+                <a href="index.html" class="navbar-link">首页</a>
+                <a href="articles.html" class="navbar-link">文章</a>
+                <a href="membership.html" class="navbar-link">会员</a>
+                <a href="about.html" class="navbar-link active">关于</a>
+            </div>
+
+            <div class="navbar-actions">
+                <div class="search-box hidden-mobile">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="搜索AI知识...">
+                </div>
+
+                <a href="auth.html" class="btn btn-ghost auth-login">登录</a>
+                <a href="auth.html?mode=register" class="btn btn-primary hidden-mobile auth-register">注册</a>
+                <a href="user.html" class="btn btn-ghost hidden auth-user">
+                    <span class="user-name"></span>
+                </a>
+
+                <button class="navbar-toggle">
+                    <span>☰</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero 区域 -->
+    <section class="about-hero">
+        <div class="about-container">
+            <div class="about-hero-content">
+                <h1 class="about-hero-title fade-in-up">关于AI知识平台</h1>
+                <p class="about-hero-subtitle fade-in-up delay-1">
+                    我们是专注人工智能技术学习和交流的社区平台，致力于为AI爱好者提供优质的学习资源和专业指导。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 使命愿景 -->
+    <section class="about-section">
+        <div class="about-container">
+            <h2 class="about-section-title fade-in-up">我们的使命与愿景</h2>
+            <div class="mission-grid">
+                <div class="mission-card fade-in-up delay-1">
+                    <div class="mission-icon">🎯</div>
+                    <h3 class="mission-title">使命</h3>
+                    <p class="mission-description">
+                        让AI技术学习变得更加简单和高效，帮助每个人都能掌握人工智能的核心技能。
+                    </p>
+                </div>
+                <div class="mission-card fade-in-up delay-2">
+                    <div class="mission-icon">🔮</div>
+                    <h3 class="mission-title">愿景</h3>
+                    <p class="mission-description">
+                        成为全球领先的AI学习社区，连接AI爱好者和专家，共同推动AI技术的发展。
+                    </p>
+                </div>
+                <div class="mission-card fade-in-up delay-3">
+                    <div class="mission-icon">💡</div>
+                    <h3 class="mission-title">价值观</h3>
+                    <p class="mission-description">
+                        开放共享、持续学习、追求卓越、技术创新，让AI造福人类社会。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心价值 -->
+    <section class="about-section">
+        <div class="about-container">
+            <h2 class="about-section-title fade-in-up">核心价值</h2>
+            <div class="values-grid">
+                <div class="value-item fade-in-up delay-1">
+                    <div class="value-icon">📚</div>
+                    <h3 class="value-title">优质内容</h3>
+                    <p class="value-description">
+                        精选AI领域最新技术和深度文章，确保内容质量和准确性。
+                    </p>
+                </div>
+                <div class="value-item fade-in-up delay-2">
+                    <div class="value-icon">👥</div>
+                    <h3 class="value-title">社区协作</h3>
+                    <p class="value-description">
+                        构建活跃的学习社区，促进知识分享和经验交流。
+                    </p>
+                </div>
+                <div class="value-item fade-in-up delay-3">
+                    <div class="value-icon">🚀</div>
+                    <h3 class="value-title">持续创新</h3>
+                    <p class="value-description">
+                        不断探索AI技术前沿，提供最新的学习资源和工具。
+                    </p>
+                </div>
+                <div class="value-item fade-in-up delay-4">
+                    <div class="value-icon">🌟</div>
+                    <h3 class="value-title">用户至上</h3>
+                    <p class="value-description">
+                        以用户需求为中心，提供个性化的学习体验和服务。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 团队介绍 -->
+    <section class="about-section">
+        <div class="about-container">
+            <h2 class="about-section-title fade-in-up">核心团队</h2>
+            <div class="team-grid">
+                <div class="team-member fade-in-up delay-1">
+                    <div class="team-avatar"></div>
+                    <h3 class="team-name">AI专家</h3>
+                    <p class="team-role">创始人 & CEO</p>
+                    <p class="team-bio">
+                        拥有10年AI研发经验，专注于深度学习和自然语言处理领域，致力于推动AI技术的普及和应用。
+                    </p>
+                </div>
+                <div class="team-member fade-in-up delay-2">
+                    <div class="team-avatar"></div>
+                    <h3 class="team-name">技术架构师</h3>
+                    <p class="team-role">CTO</p>
+                    <p class="team-bio">
+                        专注于大规模AI系统架构设计，在分布式系统和机器学习平台建设方面有丰富经验。
+                    </p>
+                </div>
+                <div class="team-member fade-in-up delay-3">
+                    <div class="team-avatar"></div>
+                    <h3 class="team-name">内容总监</h3>
+                    <p class="team-role">CMO</p>
+                    <p class="team-bio">
+                        负责内容策略和社区运营，致力于为用户提供最有价值的AI学习资源和最佳体验。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section class="about-section">
+        <div class="about-container">
+            <div class="contact-section fade-in-up">
+                <h2 class="contact-title">联系我们</h2>
+                <p class="contact-description">
+                    如果您有任何问题、建议或合作意向，欢迎随时与我们联系。我们期待听到您的声音！
+                </p>
+                <div class="contact-actions">
+                    <a href="mailto:contact@ai-knowledge-platform.com" class="btn btn-primary">
+                        📧 发送邮件
+                    </a>
+                    <a href="#" class="btn btn-outline">
+                        💬 在线客服
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>AI知识平台</h3>
+                <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: var(--spacing-lg);">
+                    专注于人工智能技术学习和交流的平台，为AI爱好者提供优质的学习资源和专业指导。
+                </p>
+                <div class="footer-social">
+                    <a href="#" aria-label="微信">📱</a>
+                    <a href="#" aria-label="微博">🌐</a>
+                    <a href="#" aria-label="GitHub">💻</a>
+                    <a href="#" aria-label="邮箱">📧</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>学习资源</h3>
+                <ul class="footer-links">
+                    <li><a href="articles.html">最新文章</a></li>
+                    <li><a href="articles.html?category=入门">入门教程</a></li>
+                    <li><a href="articles.html?category=进阶">进阶课程</a></li>
+                    <li><a href="articles.html?category=实战">实战项目</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>社区</h3>
+                <ul class="footer-links">
+                    <li><a href="#">讨论区</a></li>
+                    <li><a href="#">问答社区</a></li>
+                    <li><a href="#">专家专栏</a></li>
+                    <li><a href="#">线下活动</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <ul class="footer-links">
+                    <li><a href="about.html">平台介绍</a></li>
+                    <li><a href="#">联系我们</a></li>
+                    <li><a href="#">加入我们</a></li>
+                    <li><a href="#">合作伙伴</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>
+                <p>&copy; 2024 AI知识平台. 保留所有权利.</p>
+            </div>
+            <div>
+                <a href="#" style="color: var(--text-tertiary); margin-right: var(--spacing-md);">隐私政策</a>
+                <a href="#" style="color: var(--text-tertiary); margin-right: var(--spacing-md);">服务条款</a>
+                <a href="#" style="color: var(--text-tertiary);">Cookie设置</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/common.js"></script>
+
+    <!-- 页面特定的初始化 -->
+    <script>
+        // 等待DOM加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            // 添加滚动动画
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                    }
+                });
+            }, observerOptions);
+
+            // 观察所有需要动画的元素
+            const animatedElements = document.querySelectorAll('.fade-in-up');
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                observer.observe(el);
+            });
+
+            // 添加 revealed 样式
+            animatedElements.forEach(el => {
+                el.addEventListener('animationend', () => {
+                    el.style.opacity = '1';
+                });
+            });
+
+            // 搜索功能
+            const searchInput = document.querySelector('.search-input');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        const query = searchInput.value.trim();
+                        if (query) {
+                            window.location.href = `articles.html?search=${encodeURIComponent(query)}`;
+                        }
+                    }
+                });
+            }
+
+            // 页面加载动画
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in-up').forEach((el, index) => {
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.animation = el.classList.contains('fade-in-up') ?
+                            'fadeInUp 0.8s ease-out forwards' : '';
+                    }, index * 100);
+                });
+            }, 300);
+        });
+
+        // 错误处理
+        window.addEventListener('error', function(e) {
+            console.error('关于页面错误:', e.error);
+        });
+
+        // 性能监控
+        window.addEventListener('load', function() {
+            if (window.performance && window.performance.timing) {
+                const loadTime = window.performance.timing.loadEventEnd - window.performance.timing.navigationStart;
+                console.log('关于页面加载时间:', loadTime + 'ms');
+            }
+        });
+    </script>
+</body>
+</html>

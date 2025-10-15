@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI知识平台文章列表 - 浏览最新的人工智能技术文章、机器学习教程和深度学习案例">
+    <meta name="keywords" content="AI文章,机器学习,深度学习,NLP,计算机视觉,技术教程">
+    <meta name="author" content="AI知识平台">
+    <title>文章列表 - AI知识平台</title>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="文章列表 - AI知识平台">
+    <meta property="og:description" content="浏览最新的人工智能技术文章和学习资源">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/articles.css">
+</head>
+<body class="articles-page">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <div class="navbar-logo">AI</div>
+                <span>知识平台</span>
+            </a>
+
+            <div class="navbar-nav">
+                <a href="index.html" class="navbar-link">首页</a>
+                <a href="articles.html" class="navbar-link active">文章</a>
+                <a href="membership.html" class="navbar-link">会员</a>
+                <a href="about.html" class="navbar-link">关于</a>
+            </div>
+
+            <div class="navbar-actions">
+                <div class="search-box hidden-mobile">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="搜索AI知识...">
+                </div>
+
+                <a href="auth.html" class="btn btn-ghost auth-login">登录</a>
+                <a href="auth.html?mode=register" class="btn btn-primary hidden-mobile auth-register">注册</a>
+                <a href="user.html" class="btn btn-ghost hidden auth-user">
+                    <span class="user-name"></span>
+                </a>
+                <a href="admin.html" class="btn btn-secondary hidden auth-admin">管理</a>
+
+                <button class="navbar-toggle">
+                    <span>☰</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面头部 -->
+    <header class="page-header">
+        <div class="page-header-container">
+            <h1 class="page-title">AI技术文章</h1>
+            <p class="page-description">
+                探索人工智能的最新发展，学习机器学习、深度学习、自然语言处理等前沿技术
+            </p>
+            <div class="articles-stats" style="margin-top: var(--spacing-md); color: var(--text-secondary);"></div>
+        </div>
+    </header>
+
+    <!-- 内容区域 -->
+    <main class="articles-content">
+        <div class="articles-container">
+            <!-- 主要内容 -->
+            <div class="articles-main">
+                <!-- 筛选器 -->
+                <div class="articles-filters">
+                    <div class="filters-header">
+                        <h2 class="filters-title">筛选和排序</h2>
+                        <div class="view-options">
+                            <button class="view-btn active" data-view="grid" title="网格视图">
+                                <span>⊞</span>
+                            </button>
+                            <button class="view-btn" data-view="list" title="列表视图">
+                                <span>☰</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="filters-content">
+                        <div class="search-filter">
+                            <label class="form-label">搜索文章</label>
+                            <div style="display: flex; gap: var(--spacing-sm);">
+                                <input type="text" id="search-input" class="form-input" placeholder="输入关键词...">
+                                <button id="search-btn" class="btn btn-primary">搜索</button>
+                            </div>
+                        </div>
+
+                        <div class="category-filter">
+                            <label class="form-label">分类</label>
+                            <select id="category-select" class="form-select">
+                                <option value="all">全部分类</option>
+                                <option value="ai-models">AI模型</option>
+                                <option value="machine-learning">机器学习</option>
+                                <option value="deep-learning">深度学习</option>
+                                <option value="computer-vision">计算机视觉</option>
+                                <option value="nlp">自然语言处理</option>
+                                <option value="reinforcement-learning">强化学习</option>
+                                <option value="data-science">数据科学</option>
+                                <option value="ai-ethics">AI伦理</option>
+                            </select>
+                        </div>
+
+                        <div class="sort-filter">
+                            <label class="form-label">排序方式</label>
+                            <select id="sort-select" class="form-select">
+                                <option value="latest">最新发布</option>
+                                <option value="popular">最多浏览</option>
+                                <option value="likes">最多点赞</option>
+                                <option value="readTime">阅读时长</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 当前筛选标签 -->
+                    <div class="filter-tags" style="margin-top: var(--spacing-md);"></div>
+                </div>
+
+                <!-- 文章列表 -->
+                <div id="articles-container" class="articles-grid">
+                    <!-- 文章卡片将通过JavaScript动态生成 -->
+                </div>
+
+                <!-- 分页 -->
+                <div class="pagination">
+                    <!-- 分页按钮将通过JavaScript动态生成 -->
+                </div>
+
+                <!-- 加载更多 -->
+                <div class="load-more">
+                    <button id="load-more" class="load-more-btn">加载更多文章</button>
+                </div>
+            </div>
+
+            <!-- 侧边栏 -->
+            <aside class="articles-sidebar">
+                <!-- 分类筛选 -->
+                <div class="sidebar-section">
+                    <div class="sidebar-header">
+                        <h3 class="sidebar-title">文章分类</h3>
+                    </div>
+                    <div class="sidebar-content">
+                        <ul class="category-list">
+                            <!-- 分类列表将通过JavaScript动态生成 -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 热门标签 -->
+                <div class="sidebar-section">
+                    <div class="sidebar-header">
+                        <h3 class="sidebar-title">热门标签</h3>
+                    </div>
+                    <div class="sidebar-content">
+                        <div class="tag-cloud">
+                            <span class="tag">GPT-4</span>
+                            <span class="tag">机器学习</span>
+                            <span class="tag">深度学习</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">NLP</span>
+                            <span class="tag">计算机视觉</span>
+                            <span class="tag">TensorFlow</span>
+                            <span class="tag">PyTorch</span>
+                            <span class="tag">数据科学</span>
+                            <span class="tag">算法</span>
+                            <span class="tag">强化学习</span>
+                            <span class="tag">AI伦理</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 热门文章 -->
+                <div class="sidebar-section">
+                    <div class="sidebar-header">
+                        <h3 class="sidebar-title">热门文章</h3>
+                    </div>
+                    <div class="sidebar-content">
+                        <ul class="trending-list">
+                            <li class="trending-item">
+                                <div class="trending-number top-1">1</div>
+                                <div class="trending-content">
+                                    <div class="trending-title">GPT-4技术解析：理解大型语言模型的突破</div>
+                                    <div class="trending-meta">👁️ 2,456 阅读</div>
+                                </div>
+                            </li>
+                            <li class="trending-item">
+                                <div class="trending-number top-2">2</div>
+                                <div class="trending-content">
+                                    <div class="trending-title">AI伦理与责任：人工智能发展的道德考量</div>
+                                    <div class="trending-meta">👁️ 3,456 阅读</div>
+                                </div>
+                            </li>
+                            <li class="trending-item">
+                                <div class="trending-number top-3">3</div>
+                                <div class="trending-content">
+                                    <div class="trending-title">深度学习框架对比：TensorFlow vs PyTorch</div>
+                                    <div class="trending-meta">👁️ 3,127 阅读</div>
+                                </div>
+                            </li>
+                            <li class="trending-item">
+                                <div class="trending-number">4</div>
+                                <div class="trending-content">
+                                    <div class="trending-title">自然语言处理：文本分析技术全面解析</div>
+                                    <div class="trending-meta">👁️ 2,891 阅读</div>
+                                </div>
+                            </li>
+                            <li class="trending-item">
+                                <div class="trending-number">5</div>
+                                <div class="trending-content">
+                                    <div class="trending-title">数据科学家的Python工具箱</div>
+                                    <div class="trending-meta">👁️ 1,987 阅读</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 订阅专栏 -->
+                <div class="sidebar-section">
+                    <div class="sidebar-header">
+                        <h3 class="sidebar-title">订阅更新</h3>
+                    </div>
+                    <div class="sidebar-content">
+                        <p style="color: var(--text-secondary); margin-bottom: var(--spacing-md); font-size: var(--text-sm);">
+                            订阅我们的专栏，第一时间获取最新的AI技术文章和学习资源。
+                        </p>
+                        <form class="subscribe-form" style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
+                            <input type="email" name="email" class="form-input" placeholder="输入您的邮箱" required>
+                            <button type="submit" class="btn btn-primary btn-sm">订阅</button>
+                        </form>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>AI知识平台</h3>
+                <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: var(--spacing-lg);">
+                    专注于人工智能技术学习和交流的平台，为AI爱好者提供优质的学习资源和专业指导。
+                </p>
+                <div class="footer-social">
+                    <a href="#" aria-label="微信">📱</a>
+                    <a href="#" aria-label="微博">🌐</a>
+                    <a href="#" aria-label="GitHub">💻</a>
+                    <a href="#" aria-label="邮箱">📧</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>学习资源</h3>
+                <ul class="footer-links">
+                    <li><a href="articles.html">最新文章</a></li>
+                    <li><a href="articles.html?category=入门">入门教程</a></li>
+                    <li><a href="articles.html?category=进阶">进阶课程</a></li>
+                    <li><a href="articles.html?category=实战">实战项目</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>社区</h3>
+                <ul class="footer-links">
+                    <li><a href="#">讨论区</a></li>
+                    <li><a href="#">问答社区</a></li>
+                    <li><a href="#">专家专栏</a></li>
+                    <li><a href="#">线下活动</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <ul class="footer-links">
+                    <li><a href="about.html">平台介绍</a></li>
+                    <li><a href="#">联系我们</a></li>
+                    <li><a href="#">加入我们</a></li>
+                    <li><a href="#">合作伙伴</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>
+                <p>&copy; 2024 AI知识平台. 保留所有权利.</p>
+            </div>
+            <div>
+                <a href="#" style="color: var(--text-tertiary); margin-right: var(--spacing-md);">隐私政策</a>
+                <a href="#" style="color: var(--text-tertiary); margin-right: var(--spacing-md);">服务条款</a>
+                <a href="#" style="color: var(--text-tertiary);">Cookie设置</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/common.js"></script>
+    <script src="js/articles.js"></script>
+
+    <!-- 页面特定的初始化 -->
+    <script>
+        // 等待DOM加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            // 文章列表页初始化
+            if (typeof ArticlesPageInit === 'function') {
+                ArticlesPageInit();
+            }
+
+            // 绑定全局搜索功能
+            const globalSearch = document.querySelector('.navbar .search-input');
+            if (globalSearch) {
+                globalSearch.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        const query = this.value.trim();
+                        if (query) {
+                            window.location.href = `articles.html?search=${encodeURIComponent(query)}`;
+                        }
+                    }
+                });
+            }
+
+            // 分类选择器事件
+            const categorySelect = document.getElementById('category-select');
+            if (categorySelect) {
+                categorySelect.addEventListener('change', function() {
+                    const category = this.value;
+                    if (window.articlesPage) {
+                        window.articlesPage.setCategory(category);
+                    }
+                });
+            }
+
+            // 侧边栏订阅表单
+            const sidebarSubscribeForm = document.querySelector('.sidebar-section .subscribe-form');
+            if (sidebarSubscribeForm) {
+                sidebarSubscribeForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = this.email.value.trim();
+
+                    if (!Utils.validateEmail(email)) {
+                        ToastManager.error('请输入有效的邮箱地址');
+                        return;
+                    }
+
+                    // 模拟订阅请求
+                    ToastManager.info('正在订阅...');
+
+                    setTimeout(() => {
+                        ToastManager.success('订阅成功！您将收到最新的AI资讯');
+                        this.reset();
+
+                        // 保存订阅信息
+                        const subscribers = Utils.storage.get('subscribers', []);
+                        subscribers.push({
+                            email,
+                            date: new Date().toISOString(),
+                            source: 'articles_sidebar'
+                        });
+                        Utils.storage.set('subscribers', subscribers);
+                    }, 1500);
+                });
+            }
+
+            // 滚动时的性能优化
+            let scrollTimer = null;
+            window.addEventListener('scroll', function() {
+                if (scrollTimer) {
+                    clearTimeout(scrollTimer);
+                }
+                scrollTimer = setTimeout(function() {
+                    // 滚动结束后的处理
+                    if (window.articlesPage) {
+                        // 可以在这里添加懒加载逻辑
+                    }
+                }, 150);
+            });
+        });
+
+        // 错误处理
+        window.addEventListener('error', function(e) {
+            console.error('文章页面错误:', e.error);
+            ToastManager.error('页面加载出现错误，请刷新重试');
+        });
+
+        // 页面卸载时保存状态
+        window.addEventListener('beforeunload', function() {
+            if (window.articlesPage) {
+                // 保存当前状态
+                Utils.storage.set('articles_last_state', {
+                    category: window.articlesPage.currentCategory,
+                    search: window.articlesPage.currentSearch,
+                    sort: window.articlesPage.currentSort,
+                    page: window.articlesPage.currentPage,
+                    viewMode: window.articlesPage.viewMode,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        });
+    </script>
+</body>
+</html>

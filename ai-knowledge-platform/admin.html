@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI知识平台管理后台 - 内容管理和数据分析">
+    <meta name="keywords" content="管理后台,内容管理,数据分析">
+    <meta name="author" content="AI知识平台">
+    <title>管理后台 - AI知识平台</title>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="管理后台 - AI知识平台">
+    <meta property="og:description" content="内容管理和数据分析">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        /* 管理后台特定样式 */
+        .admin-page {
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: calc(100vh - 64px);
+        }
+
+        .admin-sidebar {
+            width: 250px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-primary);
+            padding: var(--spacing-lg);
+            position: sticky;
+            top: 64px;
+            height: calc(100vh - 64px);
+            overflow-y: auto;
+        }
+
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .admin-nav {
+            list-style: none;
+        }
+
+        .admin-nav-item {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .admin-nav-link {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-normal);
+        }
+
+        .admin-nav-link:hover,
+        .admin-nav-link.active {
+            background: var(--bg-hover);
+            color: var(--primary-color);
+        }
+
+        .admin-main {
+            flex: 1;
+            padding: var(--spacing-xl);
+            overflow-y: auto;
+        }
+
+        .admin-header {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .admin-title {
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .admin-subtitle {
+            color: var(--text-secondary);
+        }
+
+        .admin-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .section-title {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .stat-label {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--spacing-lg);
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: var(--spacing-md);
+            text-align: left;
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .data-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .data-table tr:hover {
+            background: var(--bg-hover);
+        }
+
+        .table-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .table-actions .btn {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            font-size: var(--text-xs);
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                flex-direction: column;
+            }
+
+            .admin-sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body class="admin-page">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <div class="navbar-logo">AI</div>
+                <span>知识平台</span>
+            </a>
+
+            <div class="navbar-nav">
+                <a href="index.html" class="navbar-link">首页</a>
+                <a href="articles.html" class="navbar-link">文章</a>
+                <a href="membership.html" class="navbar-link">会员</a>
+                <a href="about.html" class="navbar-link">关于</a>
+            </div>
+
+            <div class="navbar-actions">
+                <div class="search-box hidden-mobile">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="搜索AI知识...">
+                </div>
+
+                <a href="auth.html" class="btn btn-ghost auth-login hidden">登录</a>
+                <a href="auth.html?mode=register" class="btn btn-primary hidden-mobile auth-register hidden">注册</a>
+                <a href="user.html" class="btn btn-ghost auth-user">
+                    <span class="user-name"></span>
+                </a>
+                <a href="admin.html" class="btn btn-secondary auth-admin">管理</a>
+
+                <button class="navbar-toggle">
+                    <span>☰</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 管理后台容器 -->
+    <div class="admin-container">
+        <!-- 侧边栏 -->
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <span>⚙️</span>
+                <span>管理后台</span>
+            </div>
+
+            <nav>
+                <ul class="admin-nav">
+                    <li class="admin-nav-item">
+                        <a href="#dashboard" class="admin-nav-link active" data-section="dashboard">
+                            <span>📊</span>
+                            <span>数据概览</span>
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="#articles" class="admin-nav-link" data-section="articles">
+                            <span>📝</span>
+                            <span>文章管理</span>
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="#users" class="admin-nav-link" data-section="users">
+                            <span>👥</span>
+                            <span>用户管理</span>
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="#members" class="admin-nav-link" data-section="members">
+                            <span>👑</span>
+                            <span>会员管理</span>
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="#payments" class="admin-nav-link" data-section="payments">
+                            <span>💰</span>
+                            <span>支付管理</span>
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="#settings" class="admin-nav-link" data-section="settings">
+                            <span>⚙️</span>
+                            <span>系统设置</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- 主要内容 -->
+        <main class="admin-main">
+            <!-- 数据概览 -->
+            <section class="admin-section" id="dashboard-section">
+                <div class="admin-header">
+                    <h1 class="admin-title">数据概览</h1>
+                    <p class="admin-subtitle">平台运营数据和统计信息</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">1,234</div>
+                        <div class="stat-label">总用户数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">156</div>
+                        <div class="stat-label">付费会员</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">89</div>
+                        <div class="stat-label">发布文章</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">¥45,678</div>
+                        <div class="stat-label">总收入</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">最近活动</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>用户</th>
+                            <th>活动</th>
+                            <th>详情</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2024-01-15 14:30</td>
+                            <td>user@example.com</td>
+                            <td>注册</td>
+                            <td>新用户注册</td>
+                        </tr>
+                        <tr>
+                            <td>2024-01-15 14:25</td>
+                            <td>member@example.com</td>
+                            <td>购买会员</td>
+                            <td>年度会员</td>
+                        </tr>
+                        <tr>
+                            <td>2024-01-15 14:20</td>
+                            <td>reader@example.com</td>
+                            <td>阅读文章</td>
+                            <td>GPT-4技术解析</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- 文章管理 -->
+            <section class="admin-section" id="articles-section" style="display: none;">
+                <div class="admin-header">
+                    <h1 class="admin-title">文章管理</h1>
+                    <p class="admin-subtitle">管理平台的所有文章内容</p>
+                </div>
+
+                <div style="margin-bottom: var(--spacing-lg);">
+                    <button class="btn btn-primary">+ 新建文章</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>标题</th>
+                            <th>作者</th>
+                            <th>分类</th>
+                            <th>状态</th>
+                            <th>发布时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>GPT-4技术解析</td>
+                            <td>AI专家</td>
+                            <td>AI模型</td>
+                            <td><span class="badge badge-success">已发布</span></td>
+                            <td>2024-01-15</td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="btn btn-sm">编辑</button>
+                                    <button class="btn btn-sm btn-outline">删除</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>机器学习入门</td>
+                            <td>ML工程师</td>
+                            <td>机器学习</td>
+                            <td><span class="badge badge-success">已发布</span></td>
+                            <td>2024-01-14</td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="btn btn-sm">编辑</button>
+                                    <button class="btn btn-sm btn-outline">删除</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- 其他管理部分 -->
+            <section class="admin-section" id="users-section" style="display: none;">
+                <div class="admin-header">
+                    <h1 class="admin-title">用户管理</h1>
+                    <p class="admin-subtitle">管理平台用户账户</p>
+                </div>
+                <div class="empty-state">
+                    <div class="empty-icon">👥</div>
+                    <h3 class="empty-title">用户管理功能</h3>
+                    <p class="empty-description">用户管理功能正在开发中...</p>
+                </div>
+            </section>
+
+            <section class="admin-section" id="members-section" style="display: none;">
+                <div class="admin-header">
+                    <h1 class="admin-title">会员管理</h1>
+                    <p class="admin-subtitle">管理付费会员</p>
+                </div>
+                <div class="empty-state">
+                    <div class="empty-icon">👑</div>
+                    <h3 class="empty-title">会员管理功能</h3>
+                    <p class="empty-description">会员管理功能正在开发中...</p>
+                </div>
+            </section>
+
+            <section class="admin-section" id="payments-section" style="display: none;">
+                <div class="admin-header">
+                    <h1 class="admin-title">支付管理</h1>
+                    <p class="admin-subtitle">管理支付记录和订单</p>
+                </div>
+                <div class="empty-state">
+                    <div class="empty-icon">💰</div>
+                    <h3 class="empty-title">支付管理功能</h3>
+                    <p class="empty-description">支付管理功能正在开发中...</p>
+                </div>
+            </section>
+
+            <section class="admin-section" id="settings-section" style="display: none;">
+                <div class="admin-header">
+                    <h1 class="admin-title">系统设置</h1>
+                    <p class="admin-subtitle">配置系统参数</p>
+                </div>
+                <div class="empty-state">
+                    <div class="empty-icon">⚙️</div>
+                    <h3 class="empty-title">系统设置功能</h3>
+                    <p class="empty-description">系统设置功能正在开发中...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/common.js"></script>
+
+    <!-- 页面特定的初始化 -->
+    <script>
+        // 等待DOM加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查管理员权限
+            checkAdminPermission();
+
+            // 绑定导航事件
+            bindNavigationEvents();
+
+            console.log('管理后台页面初始化完成');
+        });
+
+        function checkAdminPermission() {
+            const user = UserManager.currentUser;
+
+            if (!user) {
+                ToastManager.warning('请先登录');
+                setTimeout(() => {
+                    window.location.href = 'auth.html?redirect=admin.html';
+                }, 1000);
+                return;
+            }
+
+            // 检查是否为管理员（简单示例）
+            if (!user.email || !user.email.includes('admin')) {
+                ToastManager.error('您没有管理员权限');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+                return;
+            }
+        }
+
+        function bindNavigationEvents() {
+            const navLinks = document.querySelectorAll('.admin-nav-link');
+            const sections = document.querySelectorAll('.admin-section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    const sectionName = link.dataset.section;
+
+                    // 更新导航状态
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+
+                    // 显示对应的内容
+                    sections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+
+                    const targetSection = document.getElementById(`${sectionName}-section`);
+                    if (targetSection) {
+                        targetSection.style.display = 'block';
+                    }
+                });
+            });
+        }
+
+        // 监听用户登录状态变化
+        EventBus.on('user:login', checkAdminPermission);
+        EventBus.on('user:logout', () => {
+            window.location.href = 'auth.html?redirect=admin.html';
+        });
+    </script>
+</body>
+</html>

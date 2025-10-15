@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI知识平台支付中心 - 安全便捷的支付体验">
+    <meta name="keywords" content="支付,会员订阅,安全支付">
+    <meta name="author" content="AI知识平台">
+    <title>支付中心 - AI知识平台</title>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="支付中心 - AI知识平台">
+    <meta property="og:description" content="安全便捷的支付体验">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        /* 支付页面特定样式 */
+        .payment-page {
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        .payment-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: calc(64px + var(--spacing-2xl)) var(--spacing-md) var(--spacing-2xl);
+        }
+
+        .payment-header {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .payment-title {
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .payment-subtitle {
+            color: var(--text-secondary);
+            font-size: var(--text-lg);
+        }
+
+        .payment-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+        }
+
+        .order-summary {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+        }
+
+        .order-title {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .plan-info {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .plan-name {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .plan-description {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+        }
+
+        .order-details {
+            list-style: none;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--spacing-sm) 0;
+            color: var(--text-secondary);
+        }
+
+        .order-item.total {
+            border-top: 1px solid var(--border-primary);
+            padding-top: var(--spacing-md);
+            margin-top: var(--spacing-md);
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: var(--text-lg);
+        }
+
+        .payment-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+        }
+
+        .payment-title {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md);
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-primary);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary-color);
+            background: var(--bg-hover);
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary-color);
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        .payment-method input[type="radio"] {
+            accent-color: var(--primary-color);
+        }
+
+        .payment-method-icon {
+            font-size: var(--text-xl);
+        }
+
+        .payment-method-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .coupon-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .coupon-input-group {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .submit-section {
+            margin-top: var(--spacing-xl);
+        }
+
+        .security-info {
+            text-align: center;
+            margin-top: var(--spacing-lg);
+            color: var(--text-tertiary);
+            font-size: var(--text-sm);
+        }
+
+        .security-info .icon {
+            color: var(--success-color);
+            margin-right: var(--spacing-xs);
+        }
+
+        @media (max-width: 768px) {
+            .payment-content {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="payment-page">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <div class="navbar-logo">AI</div>
+                <span>知识平台</span>
+            </a>
+
+            <div class="navbar-nav">
+                <a href="index.html" class="navbar-link">首页</a>
+                <a href="articles.html" class="navbar-link">文章</a>
+                <a href="membership.html" class="navbar-link">会员</a>
+                <a href="about.html" class="navbar-link">关于</a>
+            </div>
+
+            <div class="navbar-actions">
+                <div class="search-box hidden-mobile">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="搜索AI知识...">
+                </div>
+
+                <a href="auth.html" class="btn btn-ghost auth-login">登录</a>
+                <a href="auth.html?mode=register" class="btn btn-primary hidden-mobile auth-register">注册</a>
+                <a href="user.html" class="btn btn-ghost hidden auth-user">
+                    <span class="user-name"></span>
+                </a>
+                <a href="admin.html" class="btn btn-secondary hidden auth-admin">管理</a>
+
+                <button class="navbar-toggle">
+                    <span>☰</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 支付内容 -->
+    <main class="payment-container">
+        <div class="payment-header">
+            <h1 class="payment-title">确认订单</h1>
+            <p class="payment-subtitle">请选择支付方式完成订单</p>
+        </div>
+
+        <div class="payment-content">
+            <!-- 订单摘要 -->
+            <section class="order-summary">
+                <h2 class="order-title">订单详情</h2>
+
+                <div class="plan-info">
+                    <div class="plan-name" id="plan-name">年度会员</div>
+                    <div class="plan-description" id="plan-description">无限制访问所有付费内容</div>
+                </div>
+
+                <ul class="order-details">
+                    <li class="order-item">
+                        <span>方案价格</span>
+                        <span id="plan-price">¥299.00</span>
+                    </li>
+                    <li class="order-item">
+                        <span>优惠折扣</span>
+                        <span id="discount">-¥0.00</span>
+                    </li>
+                    <li class="order-item total">
+                        <span>应付金额</span>
+                        <span id="total-amount">¥299.00</span>
+                    </li>
+                </ul>
+
+                <div class="coupon-section">
+                    <label class="form-label">优惠券代码</label>
+                    <div class="coupon-input-group">
+                        <input type="text" id="coupon-code" class="form-input" placeholder="输入优惠券代码">
+                        <button class="btn btn-outline" onclick="applyCoupon()">应用</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 支付表单 -->
+            <section class="payment-form">
+                <h2 class="payment-title">选择支付方式</h2>
+
+                <div class="payment-methods">
+                    <label class="payment-method selected">
+                        <input type="radio" name="payment-method" value="alipay" checked>
+                        <span class="payment-method-icon">💰</span>
+                        <span class="payment-method-name">支付宝</span>
+                    </label>
+                    <label class="payment-method">
+                        <input type="radio" name="payment-method" value="wechat">
+                        <span class="payment-method-icon">💚</span>
+                        <span class="payment-method-name">微信支付</span>
+                    </label>
+                    <label class="payment-method">
+                        <input type="radio" name="payment-method" value="card">
+                        <span class="payment-method-icon">💳</span>
+                        <span class="payment-method-name">银行卡</span>
+                    </label>
+                    <label class="payment-method">
+                        <input type="radio" name="payment-method" value="paypal">
+                        <span class="payment-method-icon">🌐</span>
+                        <span class="payment-method-name">PayPal</span>
+                    </label>
+                </div>
+
+                <div class="submit-section">
+                    <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="processPayment()">
+                        确认支付 ¥299.00
+                    </button>
+                </div>
+
+                <div class="security-info">
+                    <p><span class="icon">🔒</span>安全加密支付</p>
+                    <p>支持所有主流支付方式</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>AI知识平台</h3>
+                <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: var(--spacing-lg);">
+                    专注于人工智能技术学习和交流的平台，为AI爱好者提供优质的学习资源和专业指导。
+                </p>
+                <div class="footer-social">
+                    <a href="#" aria-label="微信">📱</a>
+                    <a href="#" aria-label="微博">🌐</a>
+                    <a href="#" aria-label="GitHub">💻</a>
+                    <a href="#" aria-label="邮箱">📧</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>学习资源</h3>
+                <ul class="footer-links">
+                    <li><a href="articles.html">最新文章</a></li>
+                    <li><a href="articles.html?category=入门">入门教程</a></li>
+                    <li><a href="articles.html?category=进阶">进阶课程</a></li>
+                    <li><a href="articles.html?category=实战">实战项目</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>社区</h3>
+                <ul class="footer-links">
+                    <li><a href="#">讨论区</a></li>
+                    <li><a href="#">问答社区</a></li>
+                    <li><a href="#">专家专栏</a></li>
+                    <li><a href="#">线下活动</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <ul class="footer-links">
+                    <li><a href="about.html">平台介绍</a></li>
+                    <li><a href="#">联系我们</a></li>
+                    <li><a href="#">加入我们</a></li>
+                    <li><a href="#">合作伙伴</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>
+                <p>&copy; 2024 AI知识平台. 保留所有权利.</p>
+            </div>
+            <div>
+                <a href="#" style="color: var(--text-tertiary); margin-right: var(--spacing-md);">隐私政策</a>
+                <a href="#" style="color: var(--text-tertiary); margin-right: var(--spacing-md);">服务条款</a>
+                <a href="#" style="color: var(--text-tertiary);">Cookie设置</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/common.js"></script>
+
+    <!-- 页面特定的初始化 -->
+    <script>
+        // 支付数据
+        let paymentData = {
+            plan: 'yearly',
+            price: 299,
+            discount: 0,
+            total: 299,
+            method: 'alipay'
+        };
+
+        // 等待DOM加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查用户登录状态
+            if (!UserManager.isAuthenticated()) {
+                ToastManager.warning('请先登录');
+                setTimeout(() => {
+                    window.location.href = `auth.html?redirect=payment.html`;
+                }, 1000);
+                return;
+            }
+
+            // 加载支付数据
+            loadPaymentData();
+
+            // 绑定事件
+            bindEvents();
+
+            console.log('支付页面初始化完成');
+        });
+
+        function loadPaymentData() {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            paymentData.plan = urlParams.get('plan') || 'yearly';
+            paymentData.price = parseFloat(urlParams.get('price')) || 299;
+            paymentData.total = paymentData.price - paymentData.discount;
+
+            // 更新UI
+            updateOrderSummary();
+        }
+
+        function updateOrderSummary() {
+            const planNames = {
+                'yearly': '年度会员',
+                'monthly': '月度会员',
+                'lifetime': '终身会员'
+            };
+
+            const planDescriptions = {
+                'yearly': '无限制访问所有付费内容',
+                'monthly': '月度会员权限',
+                'lifetime': '终身会员权限'
+            };
+
+            document.getElementById('plan-name').textContent = planNames[paymentData.plan] || '年度会员';
+            document.getElementById('plan-description').textContent = planDescriptions[paymentData.plan] || '无限制访问所有付费内容';
+            document.getElementById('plan-price').textContent = `¥${paymentData.price.toFixed(2)}`;
+            document.getElementById('discount').textContent = `-¥${paymentData.discount.toFixed(2)}`;
+            document.getElementById('total-amount').textContent = `¥${paymentData.total.toFixed(2)}`;
+
+            // 更新按钮金额
+            const submitBtn = document.querySelector('.submit-section button');
+            if (submitBtn) {
+                submitBtn.textContent = `确认支付 ¥${paymentData.total.toFixed(2)}`;
+            }
+        }
+
+        function bindEvents() {
+            // 支付方式选择
+            document.querySelectorAll('input[name="payment-method"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    // 移除所有选中状态
+                    document.querySelectorAll('.payment-method').forEach(method => {
+                        method.classList.remove('selected');
+                    });
+
+                    // 添加当前选中状态
+                    this.closest('.payment-method').classList.add('selected');
+                    paymentData.method = this.value;
+                });
+            });
+        }
+
+        function applyCoupon() {
+            const couponCode = document.getElementById('coupon-code').value.trim();
+
+            if (!couponCode) {
+                ToastManager.warning('请输入优惠券代码');
+                return;
+            }
+
+            // 模拟优惠券验证
+            ToastManager.info('正在验证优惠券...');
+
+            setTimeout(() => {
+                if (couponCode === 'SAVE20') {
+                    paymentData.discount = paymentData.price * 0.2; // 20% 折扣
+                    paymentData.total = paymentData.price - paymentData.discount;
+                    updateOrderSummary();
+                    ToastManager.success('优惠券应用成功！节省 ¥' + paymentData.discount.toFixed(2));
+                } else if (couponCode === 'AI2024') {
+                    paymentData.discount = 50; // 固定50元优惠
+                    paymentData.total = paymentData.price - paymentData.discount;
+                    updateOrderSummary();
+                    ToastManager.success('优惠券应用成功！节省 ¥50.00');
+                } else {
+                    ToastManager.error('优惠券代码无效');
+                }
+            }, 1000);
+        }
+
+        function processPayment() {
+            if (!UserManager.isAuthenticated()) {
+                ToastManager.warning('请先登录');
+                return;
+            }
+
+            ToastManager.info('正在处理支付...');
+
+            // 模拟支付处理
+            setTimeout(() => {
+                // 模拟支付成功
+                const user = UserManager.currentUser;
+                if (user) {
+                    user.isPremium = true;
+                    user.membershipPlan = paymentData.plan;
+                    user.membershipExpiry = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(); // 一年后过期
+                    UserManager.login(user);
+                }
+
+                ToastManager.success('支付成功！欢迎成为会员');
+
+                // 跳转到成功页面或用户中心
+                setTimeout(() => {
+                    window.location.href = 'user.html';
+                }, 2000);
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

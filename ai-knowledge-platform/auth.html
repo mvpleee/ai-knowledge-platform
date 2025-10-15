@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI知识平台登录注册 - 开启您的AI学习之旅">
+    <meta name="keywords" content="登录,注册,AI学习,人工智能">
+    <meta name="author" content="AI知识平台">
+    <title>登录/注册 - AI知识平台</title>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="登录/注册 - AI知识平台">
+    <meta property="og:description" content="开启您的AI学习之旅">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body class="auth-page">
+    <!-- 认证容器 -->
+    <div class="auth-container">
+        <!-- 内容将通过JavaScript动态生成 -->
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/common.js"></script>
+    <script src="js/auth.js"></script>
+
+    <!-- 页面特定的初始化 -->
+    <script>
+        // 等待DOM加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            // 认证页面初始化
+            if (typeof AuthPageInit === 'function') {
+                AuthPageInit();
+            }
+
+            // 防止表单重复提交
+            let isSubmitting = false;
+
+            document.addEventListener('submit', function(e) {
+                if (e.target.classList.contains('auth-form') && isSubmitting) {
+                    e.preventDefault();
+                    return false;
+                }
+                isSubmitting = true;
+
+                setTimeout(() => {
+                    isSubmitting = false;
+                }, 3000);
+            });
+
+            // 处理浏览器后退按钮
+            window.addEventListener('popstate', function(e) {
+                if (window.authPage) {
+                    window.authPage.mode = window.authPage.getModeFromURL();
+                    window.authPage.render();
+                    window.authPage.bindEvents();
+                }
+            });
+
+            // 监听输入框的Enter键
+            document.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && e.target.classList.contains('auth-input')) {
+                    const form = e.target.closest('form');
+                    if (form) {
+                        const submitBtn = form.querySelector('.auth-submit');
+                        if (submitBtn && !submitBtn.disabled) {
+                            submitBtn.click();
+                        }
+                    }
+                }
+            });
+        });
+
+        // 错误处理
+        window.addEventListener('error', function(e) {
+            console.error('认证页面错误:', e.error);
+        });
+
+        // 监听网络状态
+        window.addEventListener('online', function() {
+            ToastManager.success('网络连接已恢复');
+        });
+
+        window.addEventListener('offline', function() {
+            ToastManager.warning('网络连接已断开');
+        });
+
+        // 自动填充检测
+        setTimeout(function() {
+            const inputs = document.querySelectorAll('input:-webkit-autofill');
+            inputs.forEach(input => {
+                input.style.backgroundColor = 'var(--bg-secondary)';
+            });
+        }, 100);
+    </script>
+</body>
+</html>

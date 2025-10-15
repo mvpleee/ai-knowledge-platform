@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI知识平台会员中心 - 解锁更多优质学习资源">
+    <meta name="keywords" content="会员中心,付费会员,AI学习,优质内容">
+    <meta name="author" content="AI知识平台">
+    <title>会员中心 - AI知识平台</title>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="会员中心 - AI知识平台">
+    <meta property="og:description" content="解锁更多优质学习资源">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        /* 会员中心特定样式 */
+        .membership-page {
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        .membership-hero {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            border-bottom: 1px solid var(--border-primary);
+            padding: calc(64px + var(--spacing-3xl)) 0 var(--spacing-2xl);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .membership-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 200%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        .membership-hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+            position: relative;
+            z-index: 1;
+        }
+
+        .membership-title {
+            font-size: var(--text-4xl);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .membership-subtitle {
+            font-size: var(--text-xl);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-2xl);
+            line-height: 1.6;
+        }
+
+        .membership-content {
+            padding: var(--spacing-3xl) 0;
+        }
+
+        .membership-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .pricing-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-2xl);
+            position: relative;
+            transition: all var(--transition-normal);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-xl), 0 0 30px rgba(124, 58, 237, 0.2);
+        }
+
+        .pricing-card.featured::before {
+            content: '最受欢迎';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-gradient);
+            color: white;
+            padding: var(--spacing-xs) var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            font-size: var(--text-sm);
+            font-weight: 600;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-8px);
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .pricing-name {
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .pricing-description {
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .pricing-price {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .pricing-currency {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+            vertical-align: super;
+        }
+
+        .pricing-amount {
+            font-size: var(--text-4xl);
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .pricing-period {
+            font-size: var(--text-base);
+            color: var(--text-secondary);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .pricing-feature {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) 0;
+            color: var(--text-secondary);
+        }
+
+        .pricing-feature .icon {
+            color: var(--success-color);
+            flex-shrink: 0;
+        }
+
+        .pricing-feature.disabled .icon {
+            color: var(--text-tertiary);
+        }
+
+        .pricing-action {
+            width: 100%;
+        }
+
+        .benefits-section {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-2xl);
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .benefits-title {
+            font-size: var(--text-2xl);
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-xl);
+        }
+
+        .benefit-item {
+            text-align: center;
+        }
+
+        .benefit-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-lg);
+            font-size: var(--text-2xl);
+            color: white;
+        }
+
+        .benefit-title {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .benefit-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .faq-section {
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .faq-title {
+            font-size: var(--text-2xl);
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-md);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: var(--spacing-lg);
+            text-align: left;
+            font-size: var(--text-lg);
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background var(--transition-normal);
+        }
+
+        .faq-question:hover {
+            background: var(--bg-hover);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: var(--text-xl);
+            transition: transform var(--transition-normal);
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 var(--spacing-lg);
+            max-height: 0;
+            overflow: hidden;
+            transition: all var(--transition-normal);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 var(--spacing-lg) var(--spacing-lg);
+            max-height: 500px;
+        }
+
+        @media (max-width: 768px) {
+            .membership-title {
+                font-size: var(--text-3xl);
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="membership-page">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <div class="navbar-logo">AI</div>
+                <span>知识平台</span>
+            </a>
+
+            <div class="navbar-nav">
+                <a href="index.html" class="navbar-link">首页</a>
+                <a href="articles.html" class="navbar-link">文章</a>
+                <a href="membership.html" class="navbar-link active">会员</a>
+                <a href="about.html" class="navbar-link">关于</a>
+            </div>
+
+            <div class="navbar-actions">
+                <div class="search-box hidden-mobile">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="搜索AI知识...">
+                </div>
+
+                <a href="auth.html" class="btn btn-ghost auth-login">登录</a>
+                <a href="auth.html?mode=register" class="btn btn-primary hidden-mobile auth-register">注册</a>
+                <a href="user.html" class="btn btn-ghost hidden auth-user">
+                    <span class="user-name"></span>
+                </a>
+                <a href="admin.html" class="btn btn-secondary hidden auth-admin">管理</a>
+
+                <button class="navbar-toggle">
+                    <span>☰</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 会员头部 -->
+    <header class="membership-hero">
+        <div class="membership-hero-container">
+            <h1 class="membership-title">解锁AI学习的无限可能</h1>
+            <p class="membership-subtitle">
+                成为AI知识平台会员，获得专业深度的技术内容、个性化学习路径和专家指导，
+                让您的AI学习之旅更加高效和充实。
+            </p>
+        </div>
+    </header>
+
+    <!-- 会员内容 -->
+    <main class="membership-content">
+        <div class="membership-container">
+            <!-- 价格方案 -->
+            <section class="pricing-section">
+                <div class="pricing-grid">
+                    <!-- 免费版 -->
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3 class="pricing-name">免费版</h3>
+                            <p class="pricing-description">适合AI学习初学者</p>
+                        </div>
+                        <div class="pricing-price">
+                            <span class="pricing-currency">¥</span>
+                            <span class="pricing-amount">0</span>
+                            <span class="pricing-period">/月</span>
+                        </div>
+                        <ul class="pricing-features">
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>访问免费文章</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>基础学习资源</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>社区讨论</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>邮件通知</span>
+                            </li>
+                            <li class="pricing-feature disabled">
+                                <span class="icon">✗</span>
+                                <span>付费深度内容</span>
+                            </li>
+                            <li class="pricing-feature disabled">
+                                <span class="icon">✗</span>
+                                <span>专家一对一指导</span>
+                            </li>
+                            <li class="pricing-feature disabled">
+                                <span class="icon">✗</span>
+                                <span>项目实战代码</span>
+                            </li>
+                        </ul>
+                        <button class="btn btn-outline pricing-action" onclick="selectPlan('free')">
+                            当前方案
+                        </button>
+                    </div>
+
+                    <!-- 年度会员 -->
+                    <div class="pricing-card featured">
+                        <div class="pricing-header">
+                            <h3 class="pricing-name">年度会员</h3>
+                            <p class="pricing-description">最受欢迎的选择</p>
+                        </div>
+                        <div class="pricing-price">
+                            <span class="pricing-currency">¥</span>
+                            <span class="pricing-amount">299</span>
+                            <span class="pricing-period">/年</span>
+                        </div>
+                        <ul class="pricing-features">
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>免费版所有功能</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>无限制访问所有文章</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>深度技术内容</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>实战项目代码</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>视频教程</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>专家答疑服务</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>学习进度跟踪</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>证书认证</span>
+                            </li>
+                        </ul>
+                        <button class="btn btn-primary pricing-action" onclick="selectPlan('yearly')">
+                            立即升级
+                        </button>
+                    </div>
+
+                    <!-- 终身会员 -->
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3 class="pricing-name">终身会员</h3>
+                            <p class="pricing-description">一次付费，终身受益</p>
+                        </div>
+                        <div class="pricing-price">
+                            <span class="pricing-currency">¥</span>
+                            <span class="pricing-amount">1999</span>
+                            <span class="pricing-period">/终身</span>
+                        </div>
+                        <ul class="pricing-features">
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>年度会员所有功能</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>终身访问权限</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>专属会员群组</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>优先新内容体验</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>线下活动优先参与</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>1对1专家咨询（每年2次）</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>定制学习计划</span>
+                            </li>
+                            <li class="pricing-feature">
+                                <span class="icon">✓</span>
+                                <span>就业推荐服务</span>
+                            </li>
+                        </ul>
+                        <button class="btn btn-outline pricing-action" onclick="selectPlan('lifetime')">
+                            联系客服
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 会员权益 -->
+            <section class="benefits-section">
+                <h2 class="benefits-title">会员专享权益</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">📚</div>
+                        <h3 class="benefit-title">深度技术内容</h3>
+                        <p class="benefit-description">由行业专家撰写的深度技术文章，涵盖AI领域最前沿的知识和实践经验。</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">💻</div>
+                        <h3 class="benefit-title">实战项目代码</h3>
+                        <p class="benefit-description">完整的AI项目源代码，包含详细注释和最佳实践，助您快速上手实际开发。</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🎥</div>
+                        <h3 class="benefit-title">视频教程</h3>
+                        <p class="benefit-description">高质量的视频教程，手把手教学，让复杂的AI概念变得简单易懂。</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">👨‍🏫</div>
+                        <h3 class="benefit-title">专家指导</h3>
+                        <p class="benefit-description">AI领域专家定期答疑，解决您在学习过程中遇到的各种问题。</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">📊</div>
+                        <h3 class="benefit-title">学习跟踪</h3>
+                        <p class="benefit-description">智能学习进度跟踪，个性化推荐，让您的学习更加高效。</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🏆</div>
+                        <h3 class="benefit-title">证书认证</h3>
+                        <p class="benefit-description">完成学习课程后获得官方认证证书，为您的职业发展加分。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 常见问题 -->
+            <section class="faq-section">
+                <h2 class="faq-title">常见问题</h2>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            会员费用包含哪些内容？
+                        </button>
+                        <div class="faq-answer">
+                            会员费用包含无限制访问所有付费文章、视频教程、实战项目代码、专家答疑服务等。
+                            不同等级的会员享有不同的权益，详细内容请参考上方的价格方案对比。
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            可以随时取消会员吗？
+                        </button>
+                        <div class="faq-answer">
+                            是的，您可以随时取消会员订阅。取消后，您仍可以使用会员直到当前计费周期结束。
+                            年度会员和终身会员一旦购买不支持退款，请谨慎选择。
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            支持哪些支付方式？
+                        </button>
+                        <div class="faq-answer">
+                            我们支持支付宝、微信支付、银行卡等多种支付方式。
+                            所有支付过程都经过加密处理，确保您的支付安全。
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            会员内容会定期更新吗？
+                        </button>
+                        <div class="faq-answer">
+                            是的，我们每周都会发布新的高质量内容，会员可以第一时间访问所有新内容。
+                            同时我们也会根据技术发展趋势和用户反馈不断优化和更新现有内容。
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>AI知识平台</h3>
+                <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: var(--spacing-lg);">
+                    专注于人工智能技术学习和交流的平台，为AI爱好者提供优质的学习资源和专业指导。
+                </p>
+                <div class="footer-social">
+                    <a href="#" aria-label="微信">📱</a>
+                    <a href="#" aria-label="微博">🌐</a>
+                    <a href="#" aria-label="GitHub">💻</a>
+                    <a href="#" aria-label="邮箱">📧</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>学习资源</h3>
+                <ul class="footer-links">
+                    <li><a href="articles.html">最新文章</a></li>
+                    <li><a href="articles.html?category=入门">入门教程</a></li>
+                    <li><a href="articles.html?category=进阶">进阶课程</a></li>
+                    <li><a href="articles.html?category=实战">实战项目</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>社区</h3>
+                <ul class="footer-links">
+                    <li><a href="#">讨论区</a></li>
+                    <li><a href="#">问答社区</a></li>
+                    <li><a href="#">专家专栏</a></li>
+                    <li><a href="#">线下活动</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <ul class="footer-links">
+                    <li><a href="about.html">平台介绍</a></li>
+                    <li><a href="#">联系我们</a></li>
+                    <li><a href="#">加入我们</a></li>
+                    <li><a href="#">合作伙伴</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>
+                <p>&copy; 2024 AI知识平台. 保留所有权利.</p>
+            </div>
+            <div>
+                <a href="#" style="color: var(--text-tertiary); margin-right: var(--spacing-md);">隐私政策</a>
+                <a href="#" style="color: var(--text-tertiary); margin-right: var(--spacing-md);">服务条款</a>
+                <a href="#" style="color: var(--text-tertiary);">Cookie设置</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/common.js"></script>
+
+    <!-- 页面特定的初始化 -->
+    <script>
+        // 等待DOM加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            // 绑定FAQ事件
+            bindFAQEvents();
+
+            // 检查用户会员状态
+            checkMembershipStatus();
+
+            console.log('会员中心页面初始化完成');
+        });
+
+        function bindFAQEvents() {
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+
+                question.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+
+                    // 关闭所有FAQ项
+                    faqItems.forEach(faq => faq.classList.remove('active'));
+
+                    // 如果当前项不是激活状态，则激活它
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        function checkMembershipStatus() {
+            const user = UserManager.currentUser;
+
+            if (user && user.isPremium) {
+                // 用户已经是会员，更新UI
+                const freeButton = document.querySelector('.pricing-card:first-child .pricing-action');
+                if (freeButton) {
+                    freeButton.textContent = '当前方案';
+                    freeButton.classList.add('disabled');
+                }
+
+                const yearlyButton = document.querySelector('.pricing-card.featured .pricing-action');
+                if (yearlyButton) {
+                    yearlyButton.textContent = '续费会员';
+                }
+            }
+        }
+
+        function selectPlan(planType) {
+            if (!UserManager.isAuthenticated()) {
+                ToastManager.warning('请先登录');
+                setTimeout(() => {
+                    window.location.href = `auth.html?redirect=membership.html`;
+                }, 1000);
+                return;
+            }
+
+            switch (planType) {
+                case 'free':
+                    ToastManager.info('您当前使用的是免费版');
+                    break;
+                case 'yearly':
+                    // 跳转到支付页面
+                    window.location.href = `payment.html?plan=yearly&price=299`;
+                    break;
+                case 'lifetime':
+                    ToastManager.info('终身会员购买请联系客服');
+                    // 这里可以添加联系客服的逻辑
+                    break;
+            }
+        }
+
+        // 监听用户登录状态变化
+        EventBus.on('user:login', checkMembershipStatus);
+        EventBus.on('user:logout', checkMembershipStatus);
+    </script>
+</body>
+</html>

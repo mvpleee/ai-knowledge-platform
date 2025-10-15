@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI知识平台用户中心 - 管理您的学习进度和个人信息">
+    <meta name="keywords" content="用户中心,个人资料,学习记录,AI学习">
+    <meta name="author" content="AI知识平台">
+    <title>用户中心 - AI知识平台</title>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="用户中心 - AI知识平台">
+    <meta property="og:description" content="管理您的学习进度和个人信息">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        /* 用户中心特定样式 */
+        .user-page {
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        .user-header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-primary);
+            padding: calc(64px + var(--spacing-2xl)) 0 var(--spacing-xl);
+        }
+
+        .user-header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xl);
+        }
+
+        .user-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            border: 4px solid var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .user-email {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .user-badges {
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        .user-badge {
+            background: var(--primary-color);
+            color: white;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-md);
+            font-size: var(--text-sm);
+            font-weight: 500;
+        }
+
+        .user-badge.premium {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+        }
+
+        .user-content {
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .user-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: var(--spacing-2xl);
+        }
+
+        .user-sidebar {
+            position: sticky;
+            top: calc(64px + var(--spacing-lg));
+            height: fit-content;
+        }
+
+        .user-nav {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+        }
+
+        .user-nav-title {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .user-nav-list {
+            list-style: none;
+        }
+
+        .user-nav-item {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .user-nav-link {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-normal);
+        }
+
+        .user-nav-link:hover,
+        .user-nav-link.active {
+            background: var(--bg-hover);
+            color: var(--primary-color);
+        }
+
+        .user-main {
+            min-width: 0;
+        }
+
+        .user-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .user-section-title {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .stat-label {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+
+        .learning-progress {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .progress-item {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .progress-title {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .progress-value {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+        }
+
+        .progress {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: var(--radius-sm);
+            transition: width var(--transition-normal);
+        }
+
+        .recent-activity {
+            list-style: none;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md) 0;
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .activity-time {
+            font-size: var(--text-sm);
+            color: var(--text-tertiary);
+        }
+
+        @media (max-width: 768px) {
+            .user-header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .user-container {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-lg);
+            }
+
+            .user-sidebar {
+                position: static;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body class="user-page">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <div class="navbar-logo">AI</div>
+                <span>知识平台</span>
+            </a>
+
+            <div class="navbar-nav">
+                <a href="index.html" class="navbar-link">首页</a>
+                <a href="articles.html" class="navbar-link">文章</a>
+                <a href="membership.html" class="navbar-link">会员</a>
+                <a href="about.html" class="navbar-link">关于</a>
+            </div>
+
+            <div class="navbar-actions">
+                <div class="search-box hidden-mobile">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="搜索AI知识...">
+                </div>
+
+                <a href="auth.html" class="btn btn-ghost auth-login hidden">登录</a>
+                <a href="auth.html?mode=register" class="btn btn-primary hidden-mobile auth-register hidden">注册</a>
+                <a href="user.html" class="btn btn-ghost auth-user">
+                    <span class="user-name"></span>
+                </a>
+                <a href="admin.html" class="btn btn-secondary hidden auth-admin">管理</a>
+
+                <button class="navbar-toggle">
+                    <span>☰</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 用户头部 -->
+    <header class="user-header">
+        <div class="user-header-container">
+            <img src="https://ui-avatars.com/api/?name=用户&background=7C3AED&color=fff&size=120" alt="用户头像" class="user-avatar">
+            <div class="user-info">
+                <h1 class="user-name">AI学习者</h1>
+                <p class="user-email">user@example.com</p>
+                <div class="user-badges">
+                    <div class="user-badge">初级学员</div>
+                    <div class="user-badge premium">👑 会员</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 用户内容 -->
+    <main class="user-content">
+        <div class="user-container">
+            <!-- 侧边栏 -->
+            <aside class="user-sidebar">
+                <nav class="user-nav">
+                    <h3 class="user-nav-title">个人中心</h3>
+                    <ul class="user-nav-list">
+                        <li class="user-nav-item">
+                            <a href="#overview" class="user-nav-link active" data-section="overview">
+                                <span>📊</span>
+                                <span>学习概览</span>
+                            </a>
+                        </li>
+                        <li class="user-nav-item">
+                            <a href="#profile" class="user-nav-link" data-section="profile">
+                                <span>👤</span>
+                                <span>个人资料</span>
+                            </a>
+                        </li>
+                        <li class="user-nav-item">
+                            <a href="#learning" class="user-nav-link" data-section="learning">
+                                <span>📚</span>
+                                <span>学习记录</span>
+                            </a>
+                        </li>
+                        <li class="user-nav-item">
+                            <a href="#favorites" class="user-nav-link" data-section="favorites">
+                                <span>❤️</span>
+                                <span>收藏文章</span>
+                            </a>
+                        </li>
+                        <li class="user-nav-item">
+                            <a href="#settings" class="user-nav-link" data-section="settings">
+                                <span>⚙️</span>
+                                <span>账户设置</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- 主要内容 -->
+            <div class="user-main">
+                <!-- 学习概览 -->
+                <section class="user-section" id="overview-section">
+                    <h2 class="user-section-title">学习概览</h2>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">42</div>
+                            <div class="stat-label">已读文章</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">128</div>
+                            <div class="stat-label">学习时长</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">15</div>
+                            <div class="stat-label">连续天数</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">8</div>
+                            <div class="stat-label">获得证书</div>
+                        </div>
+                    </div>
+
+                    <div class="learning-progress">
+                        <h3 style="margin-bottom: var(--spacing-lg); color: var(--text-primary);">学习进度</h3>
+
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span class="progress-title">机器学习基础</span>
+                                <span class="progress-value">75%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 75%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span class="progress-title">深度学习进阶</span>
+                                <span class="progress-value">45%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 45%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span class="progress-title">NLP应用开发</span>
+                                <span class="progress-value">30%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 30%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 style="margin-bottom: var(--spacing-lg); color: var(--text-primary);">最近活动</h3>
+                        <ul class="recent-activity">
+                            <li class="activity-item">
+                                <div class="activity-icon">📖</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">完成了《GPT-4技术解析》文章</div>
+                                    <div class="activity-time">2小时前</div>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-icon">🏆</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">获得"机器学习入门"证书</div>
+                                    <div class="activity-time">1天前</div>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-icon">❤️</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">收藏了《深度学习实战》文章</div>
+                                    <div class="activity-time">2天前</div>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-icon">💬</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">发表了关于NLP的评论</div>
+                                    <div class="activity-time">3天前</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- 个人资料 -->
+                <section class="user-section" id="profile-section" style="display: none;">
+                    <h2 class="user-section-title">个人资料</h2>
+                    <form class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">用户名</label>
+                            <input type="text" class="form-input" value="AI学习者">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">邮箱</label>
+                            <input type="email" class="form-input" value="user@example.com" readonly>
+                        </div>
+                    </form>
+                    <div class="form-group">
+                        <label class="form-label">个人简介</label>
+                        <textarea class="form-textarea" rows="4" placeholder="介绍一下自己...">热爱AI技术，专注于机器学习和深度学习领域的学习和研究。</textarea>
+                    </div>
+                    <button class="btn btn-primary">保存修改</button>
+                </section>
+
+                <!-- 学习记录 -->
+                <section class="user-section" id="learning-section" style="display: none;">
+                    <h2 class="user-section-title">学习记录</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--spacing-lg);">您的学习历史和成就记录</p>
+                    <div class="empty-state">
+                        <div class="empty-icon">📚</div>
+                        <h3 class="empty-title">暂无学习记录</h3>
+                        <p class="empty-description">开始阅读文章来记录您的学习进度</p>
+                        <a href="articles.html" class="btn btn-primary">浏览文章</a>
+                    </div>
+                </section>
+
+                <!-- 收藏文章 -->
+                <section class="user-section" id="favorites-section" style="display: none;">
+                    <h2 class="user-section-title">收藏文章</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--spacing-lg);">您收藏的文章列表</p>
+                    <div class="empty-state">
+                        <div class="empty-icon">❤️</div>
+                        <h3 class="empty-title">暂无收藏</h3>
+                        <p class="empty-description">收藏感兴趣的文章以便日后查看</p>
+                        <a href="articles.html" class="btn btn-primary">浏览文章</a>
+                    </div>
+                </section>
+
+                <!-- 账户设置 -->
+                <section class="user-section" id="settings-section" style="display: none;">
+                    <h2 class="user-section-title">账户设置</h2>
+                    <div class="form-group">
+                        <label class="form-label">邮件通知</label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" checked>
+                            <span>接收新文章通知</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" checked>
+                            <span>接收学习进度提醒</span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">隐私设置</label>
+                        <label class="checkbox-item">
+                            <input type="checkbox">
+                            <span>公开个人学习进度</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" checked>
+                            <span>允许其他用户查看我的资料</span>
+                        </label>
+                    </div>
+                    <div style="display: flex; gap: var(--spacing-md);">
+                        <button class="btn btn-primary">保存设置</button>
+                        <button class="btn btn-outline">修改密码</button>
+                        <button class="btn btn-ghost" style="color: var(--error-color);">退出登录</button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>AI知识平台</h3>
+                <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: var(--spacing-lg);">
+                    专注于人工智能技术学习和交流的平台，为AI爱好者提供优质的学习资源和专业指导。
+                </p>
+                <div class="footer-social">
+                    <a href="#" aria-label="微信">📱</a>
+                    <a href="#" aria-label="微博">🌐</a>
+                    <a href="#" aria-label="GitHub">💻</a>
+                    <a href="#" aria-label="邮箱">📧</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>学习资源</h3>
+                <ul class="footer-links">
+                    <li><a href="articles.html">最新文章</a></li>
+                    <li><a href="articles.html?category=入门">入门教程</a></li>
+                    <li><a href="articles.html?category=进阶">进阶课程</a></li>
+                    <li><a href="articles.html?category=实战">实战项目</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>社区</h3>
+                <ul class="footer-links">
+                    <li><a href="#">讨论区</a></li>
+                    <li><a href="#">问答社区</a></li>
+                    <li><a href="#">专家专栏</a></li>
+                    <li><a href="#">线下活动</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <ul class="footer-links">
+                    <li><a href="about.html">平台介绍</a></li>
+                    <li><a href="#">联系我们</a></li>
+                    <li><a href="#">加入我们</a></li>
+                    <li><a href="#">合作伙伴</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>
+                <p>&copy; 2024 AI知识平台. 保留所有权利.</p>
+            </div>
+            <div>
+                <a href="#" style="color: var(--text-tertiary); margin-right: var(--spacing-md);">隐私政策</a>
+                <a href="#" style="color: var(--text-tertiary); margin-right: var(--spacing-md);">服务条款</a>
+                <a href="#" style="color: var(--text-tertiary);">Cookie设置</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/common.js"></script>
+
+    <!-- 页面特定的初始化 -->
+    <script>
+        // 等待DOM加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查用户登录状态
+            if (!UserManager.isAuthenticated()) {
+                ToastManager.warning('请先登录');
+                setTimeout(() => {
+                    window.location.href = 'auth.html?redirect=user.html';
+                }, 1000);
+                return;
+            }
+
+            // 加载用户数据
+            loadUserData();
+
+            // 绑定导航事件
+            bindNavigationEvents();
+
+            // 绑定设置事件
+            bindSettingsEvents();
+
+            console.log('用户中心页面初始化完成');
+        });
+
+        function loadUserData() {
+            const user = UserManager.currentUser;
+            if (!user) return;
+
+            // 更新用户信息
+            document.querySelector('.user-name').textContent = user.name || '用户';
+            document.querySelector('.user-email').textContent = user.email || 'user@example.com';
+
+            // 更新头像
+            const avatar = document.querySelector('.user-avatar');
+            if (user.avatar) {
+                avatar.src = user.avatar;
+            }
+
+            // 更新徽章
+            const badgesContainer = document.querySelector('.user-badges');
+            if (user.isPremium) {
+                badgesContainer.innerHTML = `
+                    <div class="user-badge">初级学员</div>
+                    <div class="user-badge premium">👑 会员</div>
+                `;
+            } else {
+                badgesContainer.innerHTML = `
+                    <div class="user-badge">初级学员</div>
+                `;
+            }
+        }
+
+        function bindNavigationEvents() {
+            const navLinks = document.querySelectorAll('.user-nav-link');
+            const sections = document.querySelectorAll('.user-section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    const sectionName = link.dataset.section;
+
+                    // 更新导航状态
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+
+                    // 显示对应的内容
+                    sections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+
+                    const targetSection = document.getElementById(`${sectionName}-section`);
+                    if (targetSection) {
+                        targetSection.style.display = 'block';
+                    }
+                });
+            });
+        }
+
+        function bindSettingsEvents() {
+            // 保存设置按钮
+            document.querySelectorAll('.btn-primary').forEach(btn => {
+                if (btn.textContent === '保存设置') {
+                    btn.addEventListener('click', () => {
+                        ToastManager.success('设置已保存');
+                    });
+                }
+
+                if (btn.textContent === '保存修改') {
+                    btn.addEventListener('click', () => {
+                        ToastManager.success('个人资料已更新');
+                    });
+                }
+            });
+
+            // 修改密码按钮
+            document.querySelectorAll('.btn-outline').forEach(btn => {
+                if (btn.textContent === '修改密码') {
+                    btn.addEventListener('click', () => {
+                        ToastManager.info('密码修改功能开发中...');
+                    });
+                }
+            });
+
+            // 退出登录按钮
+            document.querySelectorAll('.btn-ghost').forEach(btn => {
+                if (btn.textContent === '退出登录') {
+                    btn.addEventListener('click', () => {
+                        if (confirm('确定要退出登录吗？')) {
+                            UserManager.logout();
+                            ToastManager.success('已退出登录');
+                            setTimeout(() => {
+                                window.location.href = 'index.html';
+                            }, 1000);
+                        }
+                    });
+                }
+            });
+        }
+
+        // 监听用户登录状态变化
+        EventBus.on('user:login', loadUserData);
+        EventBus.on('user:logout', () => {
+            window.location.href = 'auth.html?redirect=user.html';
+        });
+    </script>
+</body>
+</html>

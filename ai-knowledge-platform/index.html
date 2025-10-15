@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI知识平台提供最新的人工智能技术文章、学习资源和实战案例，助您掌握AI技能，成为AI专家。">
+    <meta name="keywords" content="人工智能,机器学习,深度学习,NLP,计算机视觉,AI教程,技术文章">
+    <meta name="author" content="AI知识平台">
+    <title>AI知识平台 - 人工智能学习与交流社区</title>
+
+    <!-- SEO优化 -->
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="AI知识平台 - 人工智能学习与交流社区">
+    <meta property="og:description" content="提供最新的人工智能技术文章、学习资源和实战案例，助您掌握AI技能，成为AI专家">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ai-knowledge-platform.com">
+    <meta property="og:image" content="https://ai-knowledge-platform.com/images/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="AI知识平台">
+    <meta property="og:locale" content="zh_CN">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI知识平台 - 人工智能学习与交流社区">
+    <meta name="twitter:description" content="提供最新的人工智能技术文章、学习资源和实战案例">
+    <meta name="twitter:image" content="https://ai-knowledge-platform.com/images/twitter-card.jpg">
+    <meta name="twitter:site" content="@AIKnowledgePlatform">
+
+    <!-- 安全配置 -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https:; media-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#7C3AED">
+    <meta name="msapplication-TileColor" content="#0F0F0F">
+    <meta name="theme-color" content="#0F0F0F">
+
+    <!-- 预连接优化 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+
+    <!-- 关键资源预加载 -->
+    <link rel="preload" href="css/common.css" as="style">
+    <link rel="preload" href="css/components.css" as="style">
+    <link rel="preload" href="css/index.css" as="style">
+    <link rel="preload" href="js/common.js" as="script">
+    <link rel="preload" href="js/index.js" as="script">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/index.css">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "AI知识平台",
+        "description": "人工智能学习与交流社区，提供最新的人工智能技术文章、学习资源和实战案例",
+        "url": "https://ai-knowledge-platform.com",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://ai-knowledge-platform.com/articles.html?search={search_term_string}",
+            "query-input": "required name=search_term_string"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "AI知识平台",
+            "url": "https://ai-knowledge-platform.com",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://ai-knowledge-platform.com/images/logo.png",
+                "width": 200,
+                "height": 60
+            }
+        }
+    }
+    </script>
+</head>
+<body class="index-page">
+    <!-- 跳转到主内容的链接 -->
+    <a href="#main-content" class="skip-link">跳转到主内容</a>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <div class="navbar-logo">AI</div>
+                <span>知识平台</span>
+            </a>
+
+            <div class="navbar-nav">
+                <a href="index.html" class="navbar-link active">首页</a>
+                <a href="articles.html" class="navbar-link">文章</a>
+                <a href="membership.html" class="navbar-link">会员</a>
+                <a href="about.html" class="navbar-link">关于</a>
+            </div>
+
+            <div class="navbar-actions">
+                <div class="search-box hidden-mobile">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input hero-search" placeholder="搜索AI知识...">
+                </div>
+
+                <a href="auth.html" class="btn btn-ghost auth-login">登录</a>
+                <a href="auth.html?mode=register" class="btn btn-primary hidden-mobile auth-register">注册</a>
+                <a href="user.html" class="btn btn-ghost hidden auth-user">
+                    <span class="user-name"></span>
+                </a>
+                <a href="admin.html" class="btn btn-secondary hidden auth-admin">管理</a>
+
+                <button class="navbar-toggle">
+                    <span>☰</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero 区域 -->
+    <section class="hero" id="main-content" aria-label="主要内容区域">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title fade-in-up">
+                    探索AI的无限可能
+                </h1>
+                <p class="hero-subtitle fade-in-up delay-1">
+                    加入AI知识平台，与全球AI爱好者一起学习最新的人工智能技术，
+                    掌握机器学习、深度学习、自然语言处理等核心技能
+                </p>
+
+                <div class="hero-actions fade-in-up delay-2" role="group" aria-label="主要操作按钮">
+                    <button class="btn btn-primary btn-lg cta-btn" data-action="start-learning" aria-describedby="start-learning-desc">
+                        开始学习
+                    </button>
+                    <button class="btn btn-outline btn-lg cta-btn" data-action="view-premium" aria-describedby="view-premium-desc">
+                        了解会员
+                    </button>
+                </div>
+                <div id="start-learning-desc" class="sr-only">开始学习AI技术，探索人工智能的无限可能</div>
+                <div id="view-premium-desc" class="sr-only">了解会员权益，解锁更多高级功能</div>
+
+                <div class="hero-description fade-in-up delay-3">
+                    <p>📚 1000+ 精选文章 | 🎯 系统化学习路径 | 💻 实战项目案例 | 👥 专家社区支持</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 特性展示 -->
+    <section class="features">
+        <div class="features-container">
+            <div class="features-header fade-in-up">
+                <h2 class="features-title">为什么选择AI知识平台？</h2>
+                <p class="features-subtitle">
+                    我们提供全方位的AI学习体验，从基础概念到高级应用，助您成为AI专家
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <!-- 特性卡片将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 最新文章 -->
+    <section class="recent-articles">
+        <div class="container">
+            <div class="recent-articles-header">
+                <h2 class="recent-articles-title">最新文章</h2>
+                <a href="articles.html" class="view-all-link">
+                    查看全部文章
+                    <span>→</span>
+                </a>
+            </div>
+
+            <div class="articles-grid">
+                <!-- 文章卡片将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 统计数据 -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stats-grid">
+                <!-- 统计数据将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA 区域 -->
+    <section class="cta">
+        <div class="cta-container">
+            <h2 class="cta-title">准备开始您的AI学习之旅吗？</h2>
+            <p class="cta-description">
+                加入我们的学习社区，获取最新的AI技术资讯和专业指导，
+                与志同道合的朋友一起成长进步
+            </p>
+
+            <div class="cta-actions">
+                <button class="btn btn-primary btn-lg cta-btn" data-action="start-free">
+                    免费开始学习
+                </button>
+                <button class="btn btn-outline btn-lg cta-btn" data-action="view-premium">
+                    升级为会员
+                </button>
+            </div>
+
+            <!-- 订阅表单 -->
+            <div class="subscribe-section" style="margin-top: var(--spacing-2xl);">
+                <form class="subscribe-form" style="display: flex; gap: var(--spacing-md); justify-content: center; flex-wrap: wrap;">
+                    <input type="email" name="email" class="form-input" placeholder="输入您的邮箱订阅AI资讯" required style="max-width: 300px; flex: 1;">
+                    <button type="submit" class="btn btn-primary">订阅</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>AI知识平台</h3>
+                <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: var(--spacing-lg);">
+                    专注于人工智能技术学习和交流的平台，为AI爱好者提供优质的学习资源和专业指导。
+                </p>
+                <div class="footer-social">
+                    <a href="#" aria-label="微信">📱</a>
+                    <a href="#" aria-label="微博">🌐</a>
+                    <a href="#" aria-label="GitHub">💻</a>
+                    <a href="#" aria-label="邮箱">📧</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>学习资源</h3>
+                <ul class="footer-links">
+                    <li><a href="articles.html">最新文章</a></li>
+                    <li><a href="articles.html?category=入门">入门教程</a></li>
+                    <li><a href="articles.html?category=进阶">进阶课程</a></li>
+                    <li><a href="articles.html?category=实战">实战项目</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>社区</h3>
+                <ul class="footer-links">
+                    <li><a href="#">讨论区</a></li>
+                    <li><a href="#">问答社区</a></li>
+                    <li><a href="#">专家专栏</a></li>
+                    <li><a href="#">线下活动</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <ul class="footer-links">
+                    <li><a href="about.html">平台介绍</a></li>
+                    <li><a href="#">联系我们</a></li>
+                    <li><a href="#">加入我们</a></li>
+                    <li><a href="#">合作伙伴</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>
+                <p>&copy; 2024 AI知识平台. 保留所有权利.</p>
+            </div>
+            <div>
+                <a href="#" style="color: var(--text-tertiary); margin-right: var(--spacing-md);">隐私政策</a>
+                <a href="#" style="color: var(--text-tertiary); margin-right: var(--spacing-md);">服务条款</a>
+                <a href="#" style="color: var(--text-tertiary);">Cookie设置</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="btn btn-primary" style="position: fixed; bottom: var(--spacing-lg); right: var(--spacing-lg); width: 50px; height: 50px; border-radius: 50%; display: none; align-items: center; justify-content: center; z-index: 1000;">
+        ↑
+    </button>
+
+    <!-- JavaScript -->
+    <script src="js/common.js"></script>
+    <script src="js/index.js"></script>
+
+    <!-- 页面特定的初始化 -->
+    <script>
+        // 等待DOM加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            // 首页初始化
+            if (typeof IndexPageInit === 'function') {
+                IndexPageInit();
+            }
+
+            // 返回顶部按钮
+            const backToTop = document.getElementById('back-to-top');
+
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTop.style.display = 'flex';
+                } else {
+                    backToTop.style.display = 'none';
+                }
+            });
+
+            backToTop.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // 搜索功能增强
+            const searchInput = document.querySelector('.hero-search');
+            if (searchInput) {
+                searchInput.addEventListener('focus', function() {
+                    this.placeholder = '输入关键词搜索文章...';
+                });
+
+                searchInput.addEventListener('blur', function() {
+                    this.placeholder = '搜索AI知识...';
+                });
+            }
+        });
+
+        // 错误处理
+        window.addEventListener('error', function(e) {
+            console.error('页面错误:', e.error);
+            // 可以在这里添加错误上报逻辑
+        });
+
+        // 性能监控
+        window.addEventListener('load', function() {
+            if (window.performance && window.performance.timing) {
+                const loadTime = window.performance.timing.loadEventEnd - window.performance.timing.navigationStart;
+                console.log('页面加载时间:', loadTime + 'ms');
+            }
+        });
+    </script>
+</body>
+</html>
